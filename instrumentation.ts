@@ -1,5 +1,5 @@
-import registerMongoConnection from './meta/db_connection'
+import { kickoffMongoConnection } from './meta/db_connection'
 
 export function register() {
-	registerMongoConnection()
+	kickoffMongoConnection()
 }
