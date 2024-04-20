@@ -15,7 +15,7 @@
  */
 import mongoose, { Document, Schema } from 'mongoose'
 
-interface ITransaction extends Document {
+export interface ITransaction extends Document {
 	name: string
 	amount: number
 	created_time: Date
@@ -26,6 +26,7 @@ const transactionSchema: Schema = new Schema({
 	amount: { type: Number, required: true },
 	created_time: { type: Date, default: Date.now() },
 })
+console.log('Transaction defined!')
 const Transaction = mongoose.model<ITransaction>('Transaction', transactionSchema)
 
 export { Transaction }

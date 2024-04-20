@@ -1,4 +1,4 @@
-import { Transaction } from '@/app/def/transaction'
+import { ITransaction, Transaction } from '@/app/def/transaction'
 import decryptToken from '@/app/util/token/decryptToken'
 import { dbConnection } from '@/meta/db_connection'
 import mongoose from 'mongoose'
@@ -14,15 +14,22 @@ export async function GET(req: Request) {
  * Inserts a new transaction into the user's database
  */
 export async function POST(req: Request) {
-	const data = await req.json()
-	console.log(data)
 	try {
+		const data = await req.json()
 		const uuid = decryptToken(data.token).uuid
+
+		const payload = data.payload as ITransaction
+		// later on, add joi to ensure data fits pattern
 		const db = dbConnection.useDb(uuid)
+		console.log('now using', db.name)
+		console.log('payload received:', payload)
+		const newTransaction = db.console.log('newTransaction:', newTransaction)
+
 		// gotta figure out how to create a single "model" that i can use across any DB
 		// currently looks like models are created per-db
 		return Response.json({ message: `Received! Your UUID is ${uuid}` })
 	} catch (e) {
+		console.log('error!', e)
 		return Response.json(null, { status: 401, statusText: 'Invalid Token' })
 	}
 }
