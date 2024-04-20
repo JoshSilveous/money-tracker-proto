@@ -1,0 +1,3 @@
+interface HasUUID {
+	uuid: string
+}
