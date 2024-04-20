@@ -1,4 +1,4 @@
-import encryptToken from '@/app/util/token/encryptToken'
+import { createToken } from '@/app/util/token/token'
 
 export async function POST(req: Request) {
 	/* 
@@ -12,8 +12,9 @@ export async function POST(req: Request) {
 
 	// logic that checks if credentials are correct in a database
 	if (data.username === 'joshuasi101' && data.password === 'password') {
+		const uuid = '123'
 		// if correct, create a token and send it
-		const newToken = encryptToken({ uuid: '123' })
+		const newToken = await createToken(uuid)
 		return Response.json({ token: newToken })
 	} else {
 		return Response.json(null, { status: 401, statusText: 'Invalid Credentials' })
