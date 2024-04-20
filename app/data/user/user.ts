@@ -33,7 +33,7 @@ export const userSchema = Joi.object({
 export async function userInsert(user: User) {
 	const hashedPassword = await bcrypt.hash(user.password, 10)
 
-	return pool.query(
+	const res = await pool.query(
 		`
 	    INSERT INTO "server".users
 	        (username, password)
@@ -42,6 +42,10 @@ export async function userInsert(user: User) {
 	    `,
 		[user.username, hashedPassword]
 	)
+
+	// implement logic to create user's DB schema and some tables
+
+	return res
 }
 
 export async function userSignin(username: string, password: string) {
