@@ -4,7 +4,7 @@ import {
 	transactionInsert,
 	transactionSchema,
 } from '@/app/data/transaction/transaction'
-import { verifyToken } from '@/app/util/token/token'
+import { createToken, verifyToken } from '@/app/util/token/token'
 
 /**
  * Retrieves a transaction from the database
@@ -27,9 +27,10 @@ export async function POST(req: Request) {
 
 	const payload = data.payload as Transaction
 	const res = await transactionInsert(uuid, dbPool, payload)
-
+	const newToken = await createToken(uuid)
 	return Response.json({
-		message: `Received!`,
+		message: `Success`,
 		transaction: res.rows[0],
+		newToken: newToken,
 	})
 }

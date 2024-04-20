@@ -13,7 +13,7 @@ export async function middleware(req: NextRequest) {
 	try {
 		data = await req.json()
 	} catch (e) {
-		return NextResponse.json({ error: 'Error parsing body' }, { status: 401 })
+		return NextResponse.json({ message: 'Error parsing body' }, { status: 401 })
 	}
 	console.log('body parsed successfully')
 
@@ -25,9 +25,9 @@ export async function middleware(req: NextRequest) {
 	} catch (e) {
 		const errorCode = (e as JWTInvalid).name
 		if (errorCode === 'JWTExpired') {
-			return NextResponse.json({ error: 'Expired token' }, { status: 401 })
+			return NextResponse.json({ message: 'Expired token' }, { status: 401 })
 		} else {
-			return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
+			return NextResponse.json({ message: 'Invalid token' }, { status: 401 })
 		}
 	}
 
@@ -39,7 +39,7 @@ export async function middleware(req: NextRequest) {
 				payload: Joi.object().required(),
 			})
 			if (reqPOSTSchema.validate(data).error) {
-				return NextResponse.json({ error: 'Invalid body format' }, { status: 401 })
+				return NextResponse.json({ message: 'Invalid body format' }, { status: 401 })
 			} else {
 				NextResponse.next()
 			}
