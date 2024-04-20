@@ -1,22 +1,21 @@
+import { userSignin } from '@/app/data/user/user'
 import { createToken } from '@/app/util/token/token'
 
 export async function POST(req: Request) {
-	/* 
-    assume incoming data is 
-    {
-        username: 'joshuasi101',
-        password: 'password'
-    }
-    */
 	const data = await req.json()
 
-	// logic that checks if credentials are correct in a database
-	if (data.username === 'joshuasi101' && data.password === 'password') {
-		const uuid = '123'
-		// if correct, create a token and send it
-		const newToken = await createToken(uuid)
-		return Response.json({ token: newToken })
-	} else {
-		return Response.json(null, { status: 401, statusText: 'Invalid Credentials' })
+	try {
+		const userInfo = await userSignin(data.username, data.password)
+		const newToken = await createToken(userInfo.uuid)
+		return Response.json({ message: 'Success', username: userInfo.username, token: newToken })
+	} catch (e) {
+		const error = e as Error
+		if (error.message === 'Username not found') {
+			return Response.json({ message: 'Username not found' }, { status: 404 })
+		} else if (error.message === 'Password doesnt match') {
+			return Response.json({ message: 'Password doesnt match' }, { status: 401 })
+		} else {
+			return Response.json({ message: 'Unknown error' }, { status: 500 })
+		}
 	}
 }
