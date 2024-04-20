@@ -1,4 +1,3 @@
-import { dbPool } from '../../../db_connection'
 import {
 	Transaction,
 	transactionInsert,
@@ -26,7 +25,7 @@ export async function POST(req: Request) {
 	}
 
 	const payload = data.payload as Transaction
-	const res = await transactionInsert(uuid, dbPool, payload)
+	const res = await transactionInsert(uuid, payload)
 	const newToken = await createToken(uuid)
 	return Response.json({
 		message: `Success`,

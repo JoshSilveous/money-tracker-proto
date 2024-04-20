@@ -1,5 +1,5 @@
+import { pool } from '@/app/api/db_connection'
 import Joi from 'joi'
-import { Pool } from 'pg'
 
 export interface Transaction {
 	name: string
@@ -19,7 +19,7 @@ export const transactionSchema = Joi.object({
 	amount: Joi.number().precision(amountPrecision).max(amountMax).min(amountMin),
 })
 
-export function transactionCreate(user_uuid: string, pool: Pool) {
+export function transactionCreate(user_uuid: string) {
 	return pool.query(
 		`
         CREATE TABLE IF NOT EXISTS "${user_uuid}".transactions
@@ -33,7 +33,7 @@ export function transactionCreate(user_uuid: string, pool: Pool) {
 	)
 }
 
-export function transactionInsert(user_uuid: string, pool: Pool, payload: Transaction) {
+export function transactionInsert(user_uuid: string, transaction: Transaction) {
 	return pool.query(
 		`
         INSERT INTO "${user_uuid}".transactions
@@ -41,6 +41,6 @@ export function transactionInsert(user_uuid: string, pool: Pool, payload: Transa
             VALUES ($1, $2)
             RETURNING *
     `,
-		Object.values(payload)
+		[transaction.name, transaction.amount]
 	)
 }

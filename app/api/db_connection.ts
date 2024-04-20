@@ -1,7 +1,7 @@
 import { Pool } from 'pg'
 
 console.log('Connecting to PostgreSQL server...')
-export const dbPool = new Pool({
+export const pool = new Pool({
 	user: 'postgres',
 	host: 'localhost',
 	database: 'postgres',
