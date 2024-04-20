@@ -1,7 +1,5 @@
-import { ITransaction, Transaction } from '@/app/def/transaction'
 import decryptToken from '@/app/util/token/decryptToken'
-import { dbConnection } from '@/meta/db_connection'
-import mongoose from 'mongoose'
+import { dbPool } from '@/meta/db_connection'
 
 /**
  * Retrieves a transaction from the database
@@ -18,12 +16,9 @@ export async function POST(req: Request) {
 		const data = await req.json()
 		const uuid = decryptToken(data.token).uuid
 
-		const payload = data.payload as ITransaction
+		const payload = data.payload
+		console.log(dbPool.query)
 		// later on, add joi to ensure data fits pattern
-		const db = dbConnection.useDb(uuid)
-		console.log('now using', db.name)
-		console.log('payload received:', payload)
-		const newTransaction = db.console.log('newTransaction:', newTransaction)
 
 		// gotta figure out how to create a single "model" that i can use across any DB
 		// currently looks like models are created per-db

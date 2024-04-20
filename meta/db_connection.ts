@@ -1,15 +1,12 @@
-import mongoose from 'mongoose'
+import { Pool } from 'pg'
 
-const MONGO_IP = 'localhost'
-const MONGO_USERNAME = 'db-connect'
-const MONGO_PASSWORD = 'db-connect'
-const MONGO_CREDENTIAL_DB = 'admin'
+console.log('Connecting to PostgreSQL server...')
+export const dbPool = new Pool({
+	user: 'postgres',
+	host: 'localhost',
+	database: 'postgres',
+	password: 'db-connect',
+	port: 5432,
+})
 
-const uri = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_IP}?authSource=${MONGO_CREDENTIAL_DB}`
-
-console.log('Connecting to MongoDB...')
-export const dbConnection = mongoose.createConnection(uri)
-console.log('MongoDB connected')
-
-// this function is ran when server starts (instrumentation.ts), kicking off the above code
-export function kickoffMongoConnection() {}
+console.log('PostgreSQL connected')
