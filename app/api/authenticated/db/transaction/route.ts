@@ -1,4 +1,4 @@
-import { Transaction, transactionInsert, transactionSchema } from '@/app/data/transaction'
+import { Transaction, transactionInsert, transactionSchema } from '@/app/data/transactions'
 import { createToken, verifyToken } from '@/app/util/token/token'
 
 /**

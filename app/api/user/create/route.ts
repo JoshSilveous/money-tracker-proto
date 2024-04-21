@@ -1,4 +1,4 @@
-import { User, userCreate } from '@/app/data/user/user'
+import { User, userCreate } from '@/app/data/users/user'
 import { createToken } from '@/app/util/token/token'
 
 export async function POST(req: Request) {

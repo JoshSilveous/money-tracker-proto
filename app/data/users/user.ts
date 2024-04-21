@@ -1,7 +1,7 @@
 import { pool } from '@/app/api/db_connection'
 import * as bcrypt from 'bcrypt'
 import Joi from 'joi'
-import { transactionCreateTable } from '../transaction'
+import { transactionCreateTable } from '../transactions'
 
 /*      Create table
 CREATE TABLE IF NOT EXISTS server.users
