@@ -6,8 +6,6 @@ import Joi from 'joi'
 
 // This function can be marked `async` if using `await` inside
 export async function middleware(req: NextRequest) {
-	console.log('middleware hit')
-
 	// make sure token is provided
 	const bearerHeader = req.headers.get('authorization')
 	if (bearerHeader === null || bearerHeader === '') {
@@ -35,7 +33,6 @@ export async function middleware(req: NextRequest) {
 	} catch (e) {
 		return NextResponse.json({ message: 'Error parsing body' }, { status: 401 })
 	}
-	console.log('body parsed successfully')
 
 	// append UUID to headers
 	const reqHeaders = new Headers(req.headers)
@@ -51,7 +48,6 @@ export async function middleware(req: NextRequest) {
 			if (reqPOSTSchema.validate(data).error) {
 				return NextResponse.json({ message: 'Invalid body format' }, { status: 401 })
 			} else {
-				console.log('hit')
 				return NextResponse.next({
 					headers: reqHeaders,
 				})
