@@ -2,6 +2,9 @@ import { pool } from '@/app/api/db_connection'
 import * as bcrypt from 'bcrypt'
 import Joi from 'joi'
 import { transactionCreateTable } from '../transactions'
+import { categoryCreateTable } from '../categories/createTable'
+import { accountCreateTable } from '../accounts/createTable'
+import { bookCreateTable } from '../books/createTable'
 
 /*      Create table
 CREATE TABLE IF NOT EXISTS server.users
@@ -48,9 +51,17 @@ export async function userCreate(user: User) {
 	if (newUserEntryRes.rowCount === 1) {
 		try {
 			const newUserUUID = (newUserEntryRes.rows[0] as UserWithID).uuid
-
+			console.log('1')
 			await pool.query(`CREATE SCHEMA "${newUserUUID}"`)
+			console.log('2')
+			await bookCreateTable(newUserUUID)
+			console.log('3')
+			await categoryCreateTable(newUserUUID)
+			console.log('4')
+			await accountCreateTable(newUserUUID)
+			console.log('5')
 			await transactionCreateTable(newUserUUID)
+			console.log('6')
 		} catch (e) {
 			console.log('caught', e)
 			throw new Error('Error creating new user database schema')

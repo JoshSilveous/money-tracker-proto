@@ -17,6 +17,7 @@ export interface NewTransaction {
 	category_id: string | null
 	account_id: string | null
 	date: Date
+	book_id: string
 }
 
 export const newTransactionSchema = Joi.object({
@@ -29,6 +30,7 @@ export const newTransactionSchema = Joi.object({
 	category_id: Joi.string(),
 	account_id: Joi.string(),
 	date: Joi.date().required(),
+	book_id: Joi.string().required(),
 })
 
 export interface Transaction extends NewTransaction {

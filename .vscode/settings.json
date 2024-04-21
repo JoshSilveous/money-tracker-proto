@@ -1,3 +1,8 @@
 {
-	"exportall.config.folderListener": ["/app/data/transaction"]
+	"exportall.config.folderListener": [
+		"/app/data/transaction",
+		"/app/data/categories",
+		"/app/data/books",
+		"/app/data/accounts"
+	]
 }
