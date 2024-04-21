@@ -5,7 +5,7 @@ export function transactionInsert(user_uuid: string, transaction: NewTransaction
 	return pool.query(
 		`
         INSERT INTO "${user_uuid}".transactions
-            (name, amount, notes, category_id, account_id, date, book_id) 
+            (name, amount, notes, category_uuid, account_uuid, date, book_uuid) 
             VALUES ($1, $2, $3, $4, $5, $6, $7)
             RETURNING *
     `,
@@ -13,10 +13,10 @@ export function transactionInsert(user_uuid: string, transaction: NewTransaction
 			transaction.name,
 			transaction.amount,
 			transaction.notes,
-			transaction.category_id,
-			transaction.account_id,
+			transaction.category_uuid,
+			transaction.account_uuid,
 			transaction.date,
-			transaction.book_id,
+			transaction.book_uuid,
 		]
 	)
 }

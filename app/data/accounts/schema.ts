@@ -9,13 +9,13 @@ export const accountRestrictions = {
 export interface NewAccount {
 	name: string
 	description: string | null
-	book_id: string
+	book_uuid: string
 }
 
 export const newAccountSchema = Joi.object({
 	name: Joi.string().max(accountRestrictions.nameMaxChar).required(),
 	description: Joi.string().max(accountRestrictions.descriptionMaxLength),
-	book_id: Joi.string().required(),
+	book_uuid: Joi.string().required(),
 })
 
 export interface Account extends NewAccount {

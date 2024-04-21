@@ -3,7 +3,7 @@ import { createToken, verifyToken } from '@/app/util/token/token'
 
 export async function POST(req: Request) {
 	const data = await req.json()
-	const uuid = req.headers.get('authenticated-uuid')!
+	const userUUID = req.headers.get('authenticated-uuid')!
 
 	const { error: joiError } = newCategorySchema.validate(data.payload)
 	if (joiError) {
@@ -11,8 +11,8 @@ export async function POST(req: Request) {
 	}
 
 	const payload = data.payload as NewCategory
-	const res = await categoryInsert(uuid, payload)
-	const newToken = await createToken(uuid)
+	const res = await categoryInsert(userUUID, payload)
+	const newToken = await createToken(userUUID)
 	return Response.json({
 		message: `Success`,
 		category: res.rows[0],

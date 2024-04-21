@@ -11,7 +11,7 @@ export function accountCreateTable(user_uuid: string) {
             description text,
             sort_pos numeric NOT NULL DEFAULT 0,
             "timestamp" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            book_id uuid REFERENCES "${user_uuid}".books(uuid) ON DELETE CASCADE,
+            book_uuid uuid REFERENCES "${user_uuid}".books(uuid) ON DELETE CASCADE,
             CONSTRAINT accounts_pkey PRIMARY KEY (uuid)
         )
         `

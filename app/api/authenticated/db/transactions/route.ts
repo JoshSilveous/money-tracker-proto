@@ -13,7 +13,7 @@ export async function GET(req: Request) {
  */
 export async function POST(req: Request) {
 	const data = await req.json()
-	const uuid = req.headers.get('authenticated-uuid')!
+	const userUUID = req.headers.get('authenticated-uuid')!
 
 	const { error: joiError } = newTransactionSchema.validate(data.payload)
 	if (joiError) {
@@ -21,8 +21,8 @@ export async function POST(req: Request) {
 	}
 
 	const payload = data.payload as NewTransaction
-	const res = await transactionInsert(uuid, payload)
-	const newToken = await createToken(uuid)
+	const res = await transactionInsert(userUUID, payload)
+	const newToken = await createToken(userUUID)
 	return Response.json({
 		message: `Success`,
 		transaction: res.rows[0],

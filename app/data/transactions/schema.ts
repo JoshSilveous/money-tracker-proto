@@ -14,10 +14,10 @@ export interface NewTransaction {
 	name: string
 	amount: number
 	notes: string | null
-	category_id: string | null
-	account_id: string | null
+	category_uuid: string | null
+	account_uuid: string | null
 	date: Date
-	book_id: string
+	book_uuid: string
 }
 
 export const newTransactionSchema = Joi.object({
@@ -27,10 +27,10 @@ export const newTransactionSchema = Joi.object({
 		.max(transactionRestrictions.amountMax)
 		.min(transactionRestrictions.amountMin),
 	notes: Joi.string().max(transactionRestrictions.notesMaxLength),
-	category_id: Joi.string(),
-	account_id: Joi.string(),
+	category_uuid: Joi.string(),
+	account_uuid: Joi.string(),
 	date: Joi.date().required(),
-	book_id: Joi.string().required(),
+	book_uuid: Joi.string().required(),
 })
 
 export interface Transaction extends NewTransaction {

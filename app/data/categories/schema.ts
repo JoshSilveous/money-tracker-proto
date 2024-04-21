@@ -9,13 +9,13 @@ export const categoryRestrictions = {
 export interface NewCategory {
 	name: string
 	description: string | null
-	book_id: string
+	book_uuid: string
 }
 
 export const newCategorySchema = Joi.object({
 	name: Joi.string().max(categoryRestrictions.nameMaxChar).required(),
 	description: Joi.string().max(categoryRestrictions.descriptionMaxLength),
-	book_id: Joi.string().required(),
+	book_uuid: Joi.string().required(),
 })
 
 export interface Category extends NewCategory {

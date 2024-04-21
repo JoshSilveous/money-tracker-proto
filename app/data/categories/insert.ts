@@ -5,10 +5,10 @@ export function categoryInsert(user_uuid: string, category: NewCategory) {
 	return pool.query(
 		`
         INSERT INTO "${user_uuid}".categories
-            (name, description, book_id) 
+            (name, description, book_uuid) 
             VALUES ($1, $2, $3)
             RETURNING *
     `,
-		[category.name, category.description, category.book_id]
+		[category.name, category.description, category.book_uuid]
 	)
 }

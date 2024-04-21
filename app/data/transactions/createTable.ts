@@ -10,12 +10,12 @@ export function transactionCreateTable(user_uuid: string) {
             name character varying(${transactionRestrictions.nameMaxChar}) NOT NULL,
             amount numeric(${transactionRestrictions.amountScale},${transactionRestrictions.amountPrecision}) NOT NULL,
             notes text,
-            category_id uuid REFERENCES "${user_uuid}".categories(uuid) ON DELETE SET NULL,
-            account_id uuid REFERENCES "${user_uuid}".accounts(uuid) ON DELETE SET NULL,
+            category_uuid uuid REFERENCES "${user_uuid}".categories(uuid) ON DELETE SET NULL,
+            account_uuid uuid REFERENCES "${user_uuid}".accounts(uuid) ON DELETE SET NULL,
             date date NOT NULL,
             sort_pos numeric NOT NULL DEFAULT 0,
             "timestamp" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            book_id uuid REFERENCES "${user_uuid}".books(uuid) ON DELETE CASCADE,
+            book_uuid uuid REFERENCES "${user_uuid}".books(uuid) ON DELETE CASCADE,
             CONSTRAINT transactions_pkey PRIMARY KEY (uuid)
         )
         `
