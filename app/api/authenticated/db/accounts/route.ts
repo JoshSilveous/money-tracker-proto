@@ -3,7 +3,7 @@ import { createToken, verifyToken } from '@/app/util/token/token'
 
 export async function POST(req: Request) {
 	const data = await req.json()
-	const uuid = (await verifyToken(data.token)).uuid
+	const uuid = req.headers.get('authenticated-uuid')!
 
 	const { error: joiError } = newAccountSchema.validate(data.payload)
 	if (joiError) {

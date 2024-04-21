@@ -8,19 +8,16 @@ import Joi from 'joi'
 export async function middleware(req: NextRequest) {
 	console.log('middleware hit')
 
-	// make sure request body is parsable
-	let data = undefined
-	try {
-		data = await req.json()
-	} catch (e) {
-		return NextResponse.json({ message: 'Error parsing body' }, { status: 401 })
+	// make sure token is provided
+	const bearerHeader = req.headers.get('authorization')
+	if (bearerHeader === null || bearerHeader === '') {
+		return NextResponse.json({ message: 'Authorization header not provided' }, { status: 401 })
 	}
-	console.log('body parsed successfully')
 
 	// make sure token is valid
 	let uuid = undefined
 	try {
-		const token = await verifyToken(data.token)
+		const token = await verifyToken(bearerHeader)
 		uuid = token.uuid
 	} catch (e) {
 		const errorCode = (e as JWTInvalid).name
@@ -31,20 +28,38 @@ export async function middleware(req: NextRequest) {
 		}
 	}
 
+	// make sure request body is parsable
+	let data = undefined
+	try {
+		data = await req.json()
+	} catch (e) {
+		return NextResponse.json({ message: 'Error parsing body' }, { status: 401 })
+	}
+	console.log('body parsed successfully')
+
+	// append UUID to headers
+	const reqHeaders = new Headers(req.headers)
+	reqHeaders.set('authenticated-uuid', uuid)
+	reqHeaders.delete('authorization')
+
 	// make sure method type contains expected body
 	switch (req.method) {
 		case 'POST':
 			const reqPOSTSchema = Joi.object({
-				token: Joi.string().required(),
 				payload: Joi.object().required(),
 			})
 			if (reqPOSTSchema.validate(data).error) {
 				return NextResponse.json({ message: 'Invalid body format' }, { status: 401 })
 			} else {
-				NextResponse.next()
+				console.log('hit')
+				return NextResponse.next({
+					headers: reqHeaders,
+				})
 			}
 		default:
-			NextResponse.next()
+			return NextResponse.next({
+				headers: reqHeaders,
+			})
 	}
 }
 
