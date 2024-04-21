@@ -9,12 +9,17 @@ export async function POST(req: Request) {
 	if (joiError) {
 		return Response.json(joiError, { status: 401, statusText: 'Invalid Data' })
 	}
-	const payload = data.payload as NewBook
-	const res = await bookInsert(userUUID, payload)
 	const newToken = await createToken(userUUID)
-	return Response.json({
-		message: `Success`,
-		book: res.rows[0],
-		newToken: newToken,
-	})
+
+	try {
+		const payload = data.payload as NewBook
+		const res = await bookInsert(userUUID, payload)
+		return Response.json({
+			message: `Success`,
+			book: res.rows[0],
+			newToken: newToken,
+		})
+	} catch (e) {
+		return Response.json({ message: 'Internal Server Error' }, { status: 500 })
+	}
 }
