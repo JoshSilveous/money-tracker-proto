@@ -1,6 +1,7 @@
 import { pool } from '@/app/api/db_connection'
 import * as bcrypt from 'bcrypt'
 import Joi from 'joi'
+import { transactionCreateTable } from '../transaction'
 
 /*      Create table
 CREATE TABLE IF NOT EXISTS server.users
@@ -17,8 +18,8 @@ CREATE TABLE IF NOT EXISTS server.users
 export interface User {
 	username: string
 	password: string
-	name: string
 }
+export type UserWithID = User & HasUUID
 
 const usernameMaxChar = 24
 const usernameMinChar = 6
@@ -30,10 +31,10 @@ export const userSchema = Joi.object({
 	password: Joi.string().max(passwordMaxChar).min(passwordMinChar).required(),
 })
 
-export async function userInsert(user: User) {
+export async function userCreate(user: User) {
 	const hashedPassword = await bcrypt.hash(user.password, 10)
 
-	const res = await pool.query(
+	const newUserEntryRes = await pool.query(
 		`
 	    INSERT INTO "server".users
 	        (username, password)
@@ -43,9 +44,20 @@ export async function userInsert(user: User) {
 		[user.username, hashedPassword]
 	)
 
-	// implement logic to create user's DB schema and some tables
+	// if user successfully created in users table
+	if (newUserEntryRes.rowCount === 1) {
+		try {
+			const newUserUUID = (newUserEntryRes.rows[0] as UserWithID).uuid
 
-	return res
+			await pool.query(`CREATE SCHEMA "${newUserUUID}"`)
+			await transactionCreateTable(newUserUUID)
+		} catch (e) {
+			console.log('caught', e)
+			throw new Error('Error creating new user database schema')
+		}
+	}
+
+	return newUserEntryRes
 }
 
 export async function userSignin(username: string, password: string) {

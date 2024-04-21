@@ -9,10 +9,9 @@ export async function POST(req: Request) {
 		const newToken = await createToken(userInfo.uuid)
 		return Response.json({ message: 'Success', username: userInfo.username, token: newToken })
 	} catch (e) {
-		const error = e as Error
-		if (error.message === 'Username not found') {
+		if ((e as Error).message === 'Username not found') {
 			return Response.json({ message: 'Username not found' }, { status: 404 })
-		} else if (error.message === 'Password doesnt match') {
+		} else if ((e as Error).message === 'Password doesnt match') {
 			return Response.json({ message: 'Password doesnt match' }, { status: 401 })
 		} else {
 			return Response.json({ message: 'Unknown error' }, { status: 500 })
