@@ -26,37 +26,14 @@ export async function middleware(req: NextRequest) {
 		}
 	}
 
-	// make sure request body is parsable
-	let data = undefined
-	try {
-		data = await req.json()
-	} catch (e) {
-		return NextResponse.json({ message: 'Error parsing body' }, { status: 401 })
-	}
-
 	// append UUID to headers
 	const reqHeaders = new Headers(req.headers)
 	reqHeaders.set('authenticated-uuid', uuid)
 	reqHeaders.delete('authorization')
 
-	// make sure method type contains expected body
-	switch (req.method) {
-		case 'POST':
-			const reqPOSTSchema = Joi.object({
-				payload: Joi.object().required(),
-			})
-			if (reqPOSTSchema.validate(data).error) {
-				return NextResponse.json({ message: 'Invalid body format' }, { status: 401 })
-			} else {
-				return NextResponse.next({
-					headers: reqHeaders,
-				})
-			}
-		default:
-			return NextResponse.next({
-				headers: reqHeaders,
-			})
-	}
+	return NextResponse.next({
+		headers: reqHeaders,
+	})
 }
 
 // See "Matching Paths" below to learn more

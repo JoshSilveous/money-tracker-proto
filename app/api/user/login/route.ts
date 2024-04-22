@@ -1,14 +1,19 @@
 import { User, userSchema, userSignin } from '@/app/data/users/user'
+import { parseAndValidate } from '@/app/util/parseAndValidate'
 import { createToken } from '@/app/util/token/token'
+import Joi from 'joi'
 
 export async function POST(req: Request) {
-	const data = await req.json()
+	const { error, data } = await parseAndValidate(
+		req,
+		Joi.object({
+			payload: userSchema.required(),
+		})
+	)
 
-	const { error: joiError } = userSchema.validate(data.payload)
-	if (joiError) {
-		return Response.json(joiError, { status: 401, statusText: 'Invalid Data' })
+	if (error) {
+		return Response.json({ message: error }, { status: 401 })
 	}
-
 	const payload = data.payload as User
 
 	try {

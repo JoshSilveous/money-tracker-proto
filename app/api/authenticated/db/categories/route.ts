@@ -1,21 +1,31 @@
 import { NewCategory, categoryInsert, newCategorySchema } from '@/app/data/categories'
-import { createToken, verifyToken } from '@/app/util/token/token'
+import { parseAndValidate } from '@/app/util/parseAndValidate'
+import { createToken } from '@/app/util/token/token'
+import Joi from 'joi'
 
 export async function POST(req: Request) {
-	const data = await req.json()
-	const userUUID = req.headers.get('authenticated-uuid')!
+	const { error, data } = await parseAndValidate(
+		req,
+		Joi.object({
+			payload: newCategorySchema.required(),
+		})
+	)
 
-	const { error: joiError } = newCategorySchema.validate(data.payload)
-	if (joiError) {
-		return Response.json(joiError, { status: 401, statusText: 'Invalid Data' })
+	if (error) {
+		return Response.json({ message: error }, { status: 401 })
 	}
 
 	const payload = data.payload as NewCategory
-	const res = await categoryInsert(userUUID, payload)
+	const userUUID = req.headers.get('authenticated-uuid')!
 	const newToken = await createToken(userUUID)
-	return Response.json({
-		message: `Success`,
-		category: res.rows[0],
-		newToken: newToken,
-	})
+	try {
+		const res = await categoryInsert(userUUID, payload)
+		return Response.json({
+			message: `Success`,
+			category: res.rows[0],
+			newToken: newToken,
+		})
+	} catch (e) {
+		return Response.json({ message: 'Internal Server Error' }, { status: 500 })
+	}
 }

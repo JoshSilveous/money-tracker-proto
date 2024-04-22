@@ -1,7 +1,7 @@
 import { NewBook, bookInsert, newBookSchema } from '@/app/data/books'
-import { createToken, verifyToken } from '@/app/util/token/token'
+import { createToken } from '@/app/util/token/token'
 
-export async function POST(req: Request) {
+export async function GET(req: Request) {
 	const data = await req.json()
 	const userUUID = req.headers.get('authenticated-uuid')!
 
