@@ -3,6 +3,8 @@
 		"/app/data/transaction",
 		"/app/data/categories",
 		"/app/data/books",
-		"/app/data/accounts"
+		"/app/data/accounts",
+		"/app/data/transactions",
+		"/app/data/users"
 	]
 }

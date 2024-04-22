@@ -1,4 +1,4 @@
-import { User, userCreate, userSchema } from '@/app/data/users/user'
+import { User, userCreate, newUserSchema } from '@/app/data/users'
 import { parseAndValidate } from '@/app/util/parseAndValidate'
 import { createToken } from '@/app/util/token/token'
 import Joi from 'joi'
@@ -7,7 +7,7 @@ export async function POST(req: Request) {
 	const { error, data } = await parseAndValidate(
 		req,
 		Joi.object({
-			payload: userSchema.required(),
+			payload: newUserSchema.required(),
 		})
 	)
 

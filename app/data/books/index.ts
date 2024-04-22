@@ -1,6 +1,3 @@
 export * from './createTable'
-export * from './delete'
-export * from './get'
-export * from './insert'
+export * from './methods'
 export * from './schema'
-export * from './update'

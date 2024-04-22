@@ -1,3 +1,3 @@
 export * from './createTable'
-export * from './insert'
+export * from './methods'
 export * from './schema'
