@@ -2,11 +2,12 @@ import { User, userCreate, userSchema } from '@/app/data/users/user'
 import { createToken } from '@/app/util/token/token'
 
 export async function POST(req: Request) {
+	console.log('api hit')
 	const data = await req.json()
 
 	const { error: joiError } = userSchema.validate(data.payload)
 	if (joiError) {
-		return Response.json(joiError, { status: 401, statusText: 'Invalid Data' })
+		return Response.json({ message: joiError.details[0].message }, { status: 401 })
 	}
 
 	const payload = data.payload as User

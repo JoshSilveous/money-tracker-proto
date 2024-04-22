@@ -1,5 +1,5 @@
 import { NewAccount, accountInsert, newAccountSchema } from '@/app/data/accounts'
-import { createToken, verifyToken } from '@/app/util/token/token'
+import { createToken } from '@/app/util/token/token'
 
 export async function POST(req: Request) {
 	const data = await req.json()

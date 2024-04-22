@@ -1,0 +1,57 @@
+.main {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	padding: 6rem;
+	min-height: 100vh;
+
+	.form_group {
+		padding: 10px;
+		border-radius: 5px;
+		text-align: center;
+		background-color: rgb(233, 216, 169);
+		h2 {
+			margin-bottom: 10px;
+		}
+	}
+	.two_col {
+		display: flex;
+		gap: 10px;
+	}
+	.form {
+		display: flex;
+		flex-direction: column;
+		padding: 10px;
+		border-radius: 5px;
+		background-color: rgb(250, 237, 203);
+		h3 {
+			font-size: 16px;
+			margin-bottom: 12px;
+		}
+		label {
+			text-align: left;
+			font-size: 12px;
+			margin-bottom: 6px;
+		}
+	}
+
+	.info {
+		width: 800px;
+		div {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+
+			p {
+				font-size: 12px;
+				&.error {
+					color: red;
+				}
+				&.no_error {
+					color: green;
+				}
+			}
+		}
+	}
+}

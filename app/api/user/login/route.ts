@@ -14,7 +14,7 @@ export async function POST(req: Request) {
 	try {
 		const userInfo = await userSignin(payload)
 		const newToken = await createToken(userInfo.uuid)
-		return Response.json({ message: 'Success', token: newToken })
+		return Response.json({ message: 'Success', newToken: newToken })
 	} catch (e) {
 		if ((e as Error).message === 'Username not found') {
 			return Response.json({ message: 'Username not found' }, { status: 404 })
