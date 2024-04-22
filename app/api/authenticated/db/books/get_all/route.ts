@@ -1,7 +1,5 @@
-import { bookGetAll, bookGetOne } from '@/app/data/books/get'
-import { parseAndValidate } from '@/app/util/parseAndValidate'
+import { bookGetAll } from '@/app/data/books/get'
 import { createToken } from '@/app/util/token/token'
-import Joi from 'joi'
 
 export async function POST(req: Request) {
 	// incoming body should be empty
