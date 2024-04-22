@@ -1,4 +1,5 @@
 export * from './createTable'
+export * from './delete'
 export * from './get'
 export * from './insert'
 export * from './schema'
