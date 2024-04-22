@@ -6,7 +6,7 @@ export function bookGetOne(user_uuid: string, book_uuid: string) {
 		`
         SELECT * FROM "${user_uuid}".books
             WHERE uuid = $1
-    `,
+    	`,
 		[book_uuid]
 	)
 }
