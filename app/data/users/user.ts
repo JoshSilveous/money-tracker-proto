@@ -64,13 +64,13 @@ export async function userCreate(user: User) {
 	return newUserEntryRes
 }
 
-export async function userSignin(username: string, password: string) {
+export async function userSignin(user: User) {
 	const res = await pool.query(
 		`
         SELECT * FROM "server".users
             WHERE username = $1
         `,
-		[username]
+		[user.username]
 	)
 
 	if (res.rowCount === 0) {
@@ -78,13 +78,12 @@ export async function userSignin(username: string, password: string) {
 	}
 	const retrievedUser = res.rows[0]
 
-	const passwordMatches = await bcrypt.compare(password, retrievedUser.password)
+	const passwordMatches = await bcrypt.compare(user.password, retrievedUser.password)
 	if (!passwordMatches) {
 		throw new Error('Password doesnt match')
 	}
 
 	return {
 		uuid: retrievedUser.uuid,
-		username: retrievedUser.username,
 	}
 }
