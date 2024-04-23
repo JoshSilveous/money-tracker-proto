@@ -8,7 +8,6 @@ import { userRestrictions } from '@/app/data/users'
 export async function devCreateDatabase() {
 	console.log('Creating tables in database...')
 
-<<<<<<< HEAD
 	console.log('    Creating "book_access_role" type...')
 	await pool.query(
 		`
@@ -17,8 +16,6 @@ export async function devCreateDatabase() {
 	)
 	console.log('        Success!')
 
-=======
->>>>>>> 8b91b615b0b19464243c42fa6504b89f2aacf195
 	console.log('    Creating "server.users" table...')
 	await pool.query(
 		`
