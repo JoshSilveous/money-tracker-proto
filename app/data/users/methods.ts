@@ -23,11 +23,11 @@ export async function userCreate(user: User) {
 	if (newUserEntryRes.rowCount === 1) {
 		try {
 			const newUserUUID = newUserEntryRes.rows[0].uuid
-			await pool.query(`CREATE SCHEMA "${newUserUUID}"`)
-			await bookCreateTable(newUserUUID)
-			await categoryCreateTable(newUserUUID)
-			await accountCreateTable(newUserUUID)
-			await transactionCreateTable(newUserUUID)
+			// await pool.query(`CREATE SCHEMA "${newUserUUID}"`)
+			// await bookCreateTable(newUserUUID)
+			// await categoryCreateTable(newUserUUID)
+			// await accountCreateTable(newUserUUID)
+			// await transactionCreateTable(newUserUUID)
 		} catch (e) {
 			throw new Error('Error creating new user database schema')
 		}
