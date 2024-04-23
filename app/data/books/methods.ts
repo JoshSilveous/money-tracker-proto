@@ -32,7 +32,6 @@ export function bookGetAll(user_uuid: string) {
 }
 
 export function bookUpdateOne(user_uuid: string, book: Book) {
-	console.log('input:', book)
 	return pool.query<Book>(
 		`
         UPDATE "${user_uuid}".books

@@ -15,7 +15,6 @@ export async function POST(req: Request) {
 			newToken: newToken,
 		})
 	} catch (e) {
-		console.log(e)
 		return Response.json({ message: 'Internal Server Error' }, { status: 500 })
 	}
 }
