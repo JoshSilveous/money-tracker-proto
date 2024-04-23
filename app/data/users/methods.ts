@@ -1,9 +1,5 @@
 import { pool } from '@/app/api/db_connection'
 import * as bcrypt from 'bcrypt'
-import { accountCreateTable } from '../accounts'
-import { bookCreateTable } from '../books'
-import { categoryCreateTable } from '../categories'
-import { transactionCreateTable } from '../transactions'
 import { User } from '.'
 
 export async function userCreate(user: User) {
@@ -21,19 +17,10 @@ export async function userCreate(user: User) {
 
 	// if user successfully created in users table
 	if (newUserEntryRes.rowCount === 1) {
-		try {
-			const newUserUUID = newUserEntryRes.rows[0].uuid
-			// await pool.query(`CREATE SCHEMA "${newUserUUID}"`)
-			// await bookCreateTable(newUserUUID)
-			// await categoryCreateTable(newUserUUID)
-			// await accountCreateTable(newUserUUID)
-			// await transactionCreateTable(newUserUUID)
-		} catch (e) {
-			throw new Error('Error creating new user database schema')
-		}
+		return newUserEntryRes.rows[0].user_id
+	} else {
+		throw new Error('Error creating new user')
 	}
-
-	return newUserEntryRes
 }
 
 export async function userSignin(user: User) {
@@ -56,6 +43,6 @@ export async function userSignin(user: User) {
 	}
 
 	return {
-		uuid: retrievedUser.uuid,
+		uuid: retrievedUser.user_id,
 	}
 }
