@@ -19,7 +19,10 @@ export async function POST(req: Request) {
 
 	try {
 		const bookUUID = data.payload.book_uuid
-		await bookDeleteOne(userUUID, bookUUID)
+		const res = await bookDeleteOne(userUUID, bookUUID)
+		if (res.rowCount === 0) {
+			return Response.json({ message: 'Resource not found' }, { status: 404 })
+		}
 		return Response.json({
 			message: `Success`,
 			newToken: newToken,

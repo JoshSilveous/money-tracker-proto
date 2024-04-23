@@ -19,7 +19,10 @@ export async function POST(req: Request) {
 
 	try {
 		const modifiedBook = data.payload
-		await bookUpdateOne(userUUID, modifiedBook)
+		const res = await bookUpdateOne(userUUID, modifiedBook)
+		if (res.rowCount === 0) {
+			return Response.json({ message: 'Resource not found' }, { status: 404 })
+		}
 		return Response.json({
 			message: `Success`,
 			newToken: newToken,
