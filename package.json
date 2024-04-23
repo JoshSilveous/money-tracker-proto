@@ -4,7 +4,8 @@
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
-		"devwipe": "npx tsx resetdevdata.ts",
+		"dev-create": "npx tsx node_scripts/devCreateDatabase.ts",
+		"dev-wipe": "npx tsx node_scripts/devWipeDatabase.ts",
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint"
