@@ -7,7 +7,7 @@ export const userRestrictions = {
 	passwordMinChar: 6,
 }
 
-export interface NewUser {
+export interface User {
 	username: string
 	password: string
 }
@@ -22,9 +22,4 @@ export const newUserSchema = Joi.object({
 		.min(userRestrictions.passwordMinChar)
 		.required(),
 })
-
-export interface User extends NewUser {
-	uuid: string
-}
-
 // no need for a userSchema

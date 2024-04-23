@@ -1,4 +1,4 @@
-import { bookDeleteOne, bookSchema, bookUpdateOne } from '@/app/data/books'
+import { bookDeleteOne } from '@/app/data/books'
 import { parseAndValidate } from '@/app/util/parseAndValidate'
 import { createToken } from '@/app/util/token/token'
 import Joi from 'joi'

@@ -4,9 +4,9 @@ import { accountCreateTable } from '../accounts'
 import { bookCreateTable } from '../books'
 import { categoryCreateTable } from '../categories'
 import { transactionCreateTable } from '../transactions'
-import { NewUser, User } from '.'
+import { User } from '.'
 
-export async function userCreate(user: NewUser) {
+export async function userCreate(user: User) {
 	const hashedPassword = await bcrypt.hash(user.password, 10)
 
 	const newUserEntryRes = await pool.query(
@@ -22,7 +22,7 @@ export async function userCreate(user: NewUser) {
 	// if user successfully created in users table
 	if (newUserEntryRes.rowCount === 1) {
 		try {
-			const newUserUUID = (newUserEntryRes.rows[0] as User).uuid
+			const newUserUUID = newUserEntryRes.rows[0].uuid
 			await pool.query(`CREATE SCHEMA "${newUserUUID}"`)
 			await bookCreateTable(newUserUUID)
 			await categoryCreateTable(newUserUUID)

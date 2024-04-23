@@ -1,4 +1,4 @@
-import { bookGetOne } from '@/app/data/books/get'
+import { bookGetOne } from '@/app/data/books/'
 import { parseAndValidate } from '@/app/util/parseAndValidate'
 import { createToken } from '@/app/util/token/token'
 import Joi from 'joi'
